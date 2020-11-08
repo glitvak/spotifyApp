@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">spotifyApp</string>
+    <string name="description">Description</string>
+    <string name="save">Save</string>
+    <string name="red">Red</string>
+    <string name="black">Black</string>
+    <string name="blue">Blue</string>
 </resources>

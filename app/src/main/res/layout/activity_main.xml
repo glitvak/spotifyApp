@@ -14,52 +14,45 @@
         android:layout_marginTop="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/edit_text_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="260dp"
-            android:layout_marginEnd="200dp"
-            android:layout_marginRight="200dp"
-            android:text="0"
+            android:hint="Title"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_text_title"
+            android:hint="@string/description"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints="" />
     </RelativeLayout>
 
     <Button
-        android:id="@+id/add"
+        android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginBottom="204dp"
-        android:text="add"
+        android:layout_marginStart="136dp"
+        android:layout_marginBottom="224dp"
+        android:text="@string/save"
+        android:onClick="saveNote"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginLeft="220dp"
-        android:layout_marginBottom="204dp"
-        android:text="Reset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/redButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="48dp"
         android:layout_marginBottom="112dp"
         android:shadowColor="#FFFFFF"
-        android:text="Red"
+        android:text="@string/red"
         android:textColor="#FFFFFF"
         android:textColorHint="#E91E1E"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,11 +62,10 @@
         android:id="@+id/blackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="256dp"
-        android:layout_marginLeft="256dp"
+        android:layout_marginStart="224dp"
         android:layout_marginBottom="112dp"
         android:shadowColor="#FFFFFF"
-        android:text="Black"
+        android:text="@string/black"
         android:textColor="#FFFFFF"
         android:textColorHint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,12 +76,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="136dp"
-        android:layout_marginLeft="136dp"
         android:layout_marginBottom="112dp"
         android:shadowColor="#FFFFFF"
-        android:text="Blue"
+        android:text="@string/blue"
         android:textColor="#FFFFFF"
         android:textColorHint="#3F51B5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
