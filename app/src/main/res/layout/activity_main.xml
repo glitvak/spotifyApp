@@ -32,59 +32,69 @@
             app:layout_constraintTop_toTopOf="parent"
             android:autofillHints=""
             android:inputType="text" />
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:hint="@string/retrieved_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints=""
+            android:inputType="text" />
+
     </RelativeLayout>
 
     <Button
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginBottom="224dp"
-        android:text="@string/save"
         android:onClick="saveNote"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.812" />
 
     <Button
-        android:id="@+id/redButton"
+        android:id="@+id/update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="112dp"
         android:shadowColor="#FFFFFF"
-        android:text="@string/red"
-        android:textColor="#FFFFFF"
+        android:text="@string/update"
+        android:textColor="#000000"
         android:textColorHint="#E91E1E"
+        android:onClick="updateData"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/save"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.812" />
 
     <Button
-        android:id="@+id/blackButton"
+        android:id="@+id/retrieve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="224dp"
-        android:layout_marginBottom="112dp"
         android:shadowColor="#FFFFFF"
-        android:text="@string/black"
-        android:textColor="#FFFFFF"
+        android:text="@string/retrieve"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:onClick="retrieveData"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/delete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.812" />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="#FFFFFF"
+        android:text="@string/delete"
+        android:textColor="#000000"
         android:textColorHint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/update"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.812" />
 
-    <Button
-        android:id="@+id/blueButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:layout_marginBottom="112dp"
-        android:shadowColor="#FFFFFF"
-        android:text="@string/blue"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#3F51B5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save"
-        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
