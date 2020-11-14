@@ -1,4 +1,6 @@
-package com.example.spotifyapp;
+package com.example.spotifyapp.Model;
+
+import com.example.spotifyapp.Model.Song;
 
 import java.util.List;
 
