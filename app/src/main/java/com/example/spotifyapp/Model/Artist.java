@@ -8,9 +8,10 @@ public class Artist {
     private String name;
     private String genre;
     private List<Song> songs;
-    public Artist(String name, String genre) {
+    private String id;
+    public Artist(String name, String id) {
         this.name = name;
-        this.genre = genre;
+        this.id = id;
     }
 
     public String getName() {
@@ -35,5 +36,13 @@ public class Artist {
 
     public void setSongs(List<Song> songs) {
         this.songs = songs;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

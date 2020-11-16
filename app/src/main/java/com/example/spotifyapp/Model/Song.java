@@ -4,6 +4,7 @@ public class Song {
 
     private String id;
     private String name;
+    private String artist;
 
     public Song(String id, String name) {
         this.name = name;
@@ -26,4 +27,11 @@ public class Song {
         this.name = name;
     }
 
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
 }
