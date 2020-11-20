@@ -2,8 +2,11 @@ package com.example.spotifyapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ public class DisplayData extends AppCompatActivity {
     private TextView songView;
     private Button addBtn;
     private Song song;
+    private String url = "http://spotify.com/";
 
     private SongService songService;
     private ArrayList<Song> recentlyPlayedTracks;
@@ -55,5 +59,14 @@ public class DisplayData extends AppCompatActivity {
             songView.setText(x);
             song = recentlyPlayedTracks.get(0);
         }
+    }
+    public void goToSu (View view) {
+        goToUrl (url);
+    }
+
+    private void goToUrl (String url) {
+        Uri uriUrl = Uri.parse(url);
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        startActivity(launchBrowser);
     }
 }

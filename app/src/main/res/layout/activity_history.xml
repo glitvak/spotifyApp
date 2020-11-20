@@ -48,6 +48,14 @@
                 android:id="@+id/DislikedView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/makePlaylistButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="saveSongs"
+                android:text="Add to liked songs" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

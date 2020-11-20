@@ -61,6 +61,7 @@ public class RecActivity extends AppCompatActivity {
         Button like = findViewById(R.id.likeBtn);
         Button dislike = findViewById(R.id.DislikeBtn);
         Button history = findViewById(R.id.historyBtn);
+        Button local = findViewById(R.id.localButton);
         analysisView = findViewById(R.id.analysis);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
@@ -100,6 +101,14 @@ public class RecActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent newintent = new Intent(RecActivity.this, HistoryActivity.class);
+                startActivity(newintent);
+            }
+        });
+
+        local.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newintent = new Intent(RecActivity.this, LocalPlaylist.class);
                 startActivity(newintent);
             }
         });
@@ -166,7 +175,7 @@ public class RecActivity extends AppCompatActivity {
                     String text = "";
                     if (rec != null) {
                         text += rec.getArtist() + " - " + rec.getName();
-
+                        Log.d("ID: ", rec.getId());
                     }
                     analysisView.setText(text);
                 }
@@ -178,7 +187,11 @@ public class RecActivity extends AppCompatActivity {
         if(rec != null){
             DocumentReference user_doc = db.collection("Notebook").document(id);
 
-            user_doc.update("likedSongs", FieldValue.arrayUnion(rec.getArtist() + " - " + rec.getName()))
+            Map<String, String> likedSongs = new HashMap<>();
+            likedSongs.put("artist", rec.getArtist());
+            likedSongs.put("name", rec.getName());
+            likedSongs.put("id", rec.getId());
+            user_doc.update("likedSongs", FieldValue.arrayUnion(likedSongs))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
