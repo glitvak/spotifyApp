@@ -12,11 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LocalPlaylist"
-            android:parentActivityName=".RecActivity"></activity>
+        <activity android:name=".HistoryTabActivity"
+            android:parentActivityName=".RecActivity">
+        </activity>
+        <activity
+            android:name=".LocalPlaylist"
+            android:parentActivityName=".RecActivity" />
         <activity
             android:name=".HistoryActivity"
-            android:parentActivityName=".RecActivity"></activity>
+            android:parentActivityName=".RecActivity" />
         <activity android:name=".RecActivity" />
         <activity android:name=".DisplayData" />
         <activity

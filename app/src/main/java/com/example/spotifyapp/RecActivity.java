@@ -100,7 +100,8 @@ public class RecActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newintent = new Intent(RecActivity.this, HistoryActivity.class);
+//                Intent newintent = new Intent(RecActivity.this, HistoryActivity.class);
+                Intent newintent = new Intent(RecActivity.this, HistoryTabActivity.class);
                 startActivity(newintent);
             }
         });
