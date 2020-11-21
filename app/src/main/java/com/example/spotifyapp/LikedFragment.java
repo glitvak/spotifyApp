@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View.OnClickListener;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,8 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LikedFragment extends Fragment {
+public class LikedFragment extends Fragment implements OnClickListener{
     TextView likedView;
+    Button playlistButton;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Boolean playlistMade = false;
     private SharedPreferences sharedPreferences;
@@ -71,6 +74,11 @@ public class LikedFragment extends Fragment {
         //likedView.setText(text[0]);
     }
 
+    public void saveSongs(View view, String likedSongIDs){
+        Toast.makeText(view.getContext(), "Added", Toast.LENGTH_SHORT);
+        songService.addSongsToLibrary(likedSongIDs);
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -78,9 +86,22 @@ public class LikedFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_like, container, false);
         likedView = view.findViewById(R.id.likedSongs);
+        playlistButton = view.findViewById(R.id.playListBtn);
+        Log.e("WAT", playlistButton.getText().toString());
         sharedPreferences = view.getContext().getSharedPreferences("SPOTIFY", 0);
         String id = sharedPreferences.getString("userid", "No User");
         loadData(view, id);
+        playlistButton.setOnClickListener(this);
+
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.playListBtn:
+                saveSongs(v, likedSongIDs);
+                break;
+        }
     }
 }
