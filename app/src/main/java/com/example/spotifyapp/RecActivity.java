@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.type.DateTime;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,10 +29,12 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +47,7 @@ public class RecActivity extends AppCompatActivity {
     private ArrayList<Artist> topArtists;
     private JSONObject analysis;
     private TextView analysisView;
+    private ImageView img;
     private Song rec;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Timestamp date;
@@ -62,6 +66,7 @@ public class RecActivity extends AppCompatActivity {
         Button dislike = findViewById(R.id.DislikeBtn);
         Button history = findViewById(R.id.historyBtn);
         Button local = findViewById(R.id.localButton);
+        img = findViewById(R.id.albumArt);
         analysisView = findViewById(R.id.analysis);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
@@ -94,6 +99,15 @@ public class RecActivity extends AppCompatActivity {
                 dislikeSong(v, sharedPreferences.getString("userid", "No User"));
                 like.setEnabled(false);
                 dislike.setEnabled(false);
+            }
+        });
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("URL", rec.getUrl());
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(rec.getUrl()));
+                startActivity(browserIntent);
             }
         });
 
@@ -178,6 +192,8 @@ public class RecActivity extends AppCompatActivity {
                         text += rec.getArtist() + " - " + rec.getName();
                         Log.d("ID: ", rec.getId());
                     }
+
+                    loadImage(rec.getId());
                     analysisView.setText(text);
                 }
             }, recentlyPlayedTracks, topArtists);
@@ -285,4 +301,14 @@ public class RecActivity extends AppCompatActivity {
 //        return currDate[0];
 //    }
 
+    public void loadImage(String id){
+        songService.getArt(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                String url = songService.getUrl();
+
+                Picasso.get().load(url).into(img);
+            }
+        }, id);
+    }
 }

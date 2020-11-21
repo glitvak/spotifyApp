@@ -5,6 +5,7 @@ public class Song {
     private String id;
     private String name;
     private String artist;
+    private String url;
 
     public Song(String id, String name) {
         this.name = name;
@@ -33,5 +34,13 @@ public class Song {
 
     public void setArtist(String artist) {
         this.artist = artist;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

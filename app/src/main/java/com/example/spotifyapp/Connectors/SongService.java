@@ -35,6 +35,7 @@ public class SongService {
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private Song recSong;
+    private String url;
 
     public SongService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
@@ -51,6 +52,8 @@ public class SongService {
 
     public Song getRec(){ return recSong;}
 
+    public String getUrl(){ return url;}
+
     public ArrayList<Song> getRecentlyPlayedTracks(final VolleyCallBack callBack){
         String endpoint = "https://api.spotify.com/v1/me/player/recently-played";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -66,6 +69,7 @@ public class SongService {
                                 Log.d("JSONSong",object.toString(4));
                                 Log.d("JSONurl", object.getJSONObject("external_urls").getString("spotify"));
                                 Song song = gson.fromJson(object.toString(), Song.class);
+                                song.setUrl(object.getJSONObject("external_urls").getString("spotify"));
                                 songs.add(song);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -214,6 +218,7 @@ public class SongService {
                         try {
                             JSONObject object = jsonArray.getJSONObject(0);
                             recSong = gson.fromJson(object.toString(), Song.class);
+                            recSong.setUrl(jsonArray.getJSONObject(0).getString("preview_url"));
                             String artist = object.optJSONArray("artists").getJSONObject(0).getString("name");
                             recSong.setArtist(artist);
                         }catch (JSONException e){
@@ -234,5 +239,38 @@ public class SongService {
         };
         queue.add(jsonObjectRequest);
         return recSong;
+    }
+
+    public String getArt(final VolleyCallBack callBack, String id){
+        String endpoint = "https://api.spotify.com/v1/tracks/" + id;
+        //final String[] url = {""};
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray jsonArray = response.optJSONObject("album").optJSONArray("images");
+//                JSONObject object = response;
+//                a[0] = object;
+                Log.d("TEST", jsonArray.toString());
+                try {
+                    url = jsonArray.getJSONObject(1).get("url").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callBack.onSuccess();
+            }
+        }, null)
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
+
+        return url;
     }
 }
