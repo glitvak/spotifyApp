@@ -218,7 +218,7 @@ public class SongService {
                         try {
                             JSONObject object = jsonArray.getJSONObject(0);
                             recSong = gson.fromJson(object.toString(), Song.class);
-                            recSong.setUrl(jsonArray.getJSONObject(0).getString("preview_url"));
+                            recSong.setUrl(jsonArray.getJSONObject(0).getJSONObject("external_urls").getString("spotify"));
                             String artist = object.optJSONArray("artists").getJSONObject(0).getString("name");
                             recSong.setArtist(artist);
                         }catch (JSONException e){

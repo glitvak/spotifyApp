@@ -38,8 +38,7 @@ public class PlaylistService {
         return playlists;
     }
 
-    public ArrayList<Playlist> getLocalPlaylist(String city, final VolleyCallBack callBack){
-        final int limit = 10;
+    public ArrayList<Playlist> getLocalPlaylist(String city, int limit, final VolleyCallBack callBack){
         String endpoint = "https://api.spotify.com/v1/search?q=" + city + "&type=playlist&limit=" + limit + "";
         Log.d("Endpoint", endpoint);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -53,6 +52,8 @@ public class PlaylistService {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 Playlist playlist = new Playlist();
                                 playlist.setName(jsonObject1.getString("name"));
+                                playlist.setLink(jsonObject1.getJSONObject("external_urls").getString("spotify"));
+                                playlist.setURL(jsonObject1.getJSONArray("images").getJSONObject(0).getString("url"));
                                 playlists.add(playlist);
                             }
                         } catch (JSONException e) {

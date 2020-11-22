@@ -1,5 +1,6 @@
 package com.example.spotifyapp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,14 +30,13 @@ public class LikedFragment extends Fragment implements OnClickListener{
     TextView likedView;
     Button playlistButton;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Boolean playlistMade = false;
     private SharedPreferences sharedPreferences;
-    String likedSongIDs;
+    String likedSongIDs = "";
     private RequestQueue queue;
     private SongService songService;
 
-    public LikedFragment(){
-
+    public LikedFragment(Context context){
+        songService = new SongService(context);
     }
 
     private void loadData(View v, String id){

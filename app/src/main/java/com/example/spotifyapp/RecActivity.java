@@ -29,6 +29,9 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,9 +54,15 @@ public class RecActivity extends AppCompatActivity {
     private Song rec;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Timestamp date;
+    private GradientDrawable backgroundGradient;
     public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        backgroundGradient = (GradientDrawable)img.getBackground();
+        backgroundGradient.setStroke(0, Color.WHITE);
+    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rec);
@@ -68,6 +77,7 @@ public class RecActivity extends AppCompatActivity {
         Button local = findViewById(R.id.localButton);
         img = findViewById(R.id.albumArt);
         analysisView = findViewById(R.id.analysis);
+        backgroundGradient = (GradientDrawable)img.getBackground();
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         checkDB(sharedPreferences.getString("userid", "No User"));
@@ -81,6 +91,7 @@ public class RecActivity extends AppCompatActivity {
                 getSongs();
                 like.setEnabled(true);
                 dislike.setEnabled(true);
+                backgroundGradient.setStroke(15, Color.WHITE);
             }
         });
 
@@ -105,9 +116,11 @@ public class RecActivity extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("URL", rec.getUrl());
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(rec.getUrl()));
-                startActivity(browserIntent);
+                if(rec != null) {
+                    Log.d("URL", rec.getUrl());
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(rec.getUrl()));
+                    startActivity(browserIntent);
+                }
             }
         });
 
@@ -128,7 +141,6 @@ public class RecActivity extends AppCompatActivity {
             }
         });
     }
-
     private void getAnalysis(){
         Song current = recentlyPlayedTracks.get(0);
         //Log.d("ERR", current.getId());
@@ -195,6 +207,7 @@ public class RecActivity extends AppCompatActivity {
 
                     loadImage(rec.getId());
                     analysisView.setText(text);
+                    analysisView.setTypeface(null, Typeface.BOLD);
                 }
             }, recentlyPlayedTracks, topArtists);
         }
@@ -306,7 +319,6 @@ public class RecActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 String url = songService.getUrl();
-
                 Picasso.get().load(url).into(img);
             }
         }, id);

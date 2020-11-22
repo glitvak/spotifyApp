@@ -23,7 +23,7 @@ public class MyAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                LikedFragment likedFragment = new LikedFragment();
+                LikedFragment likedFragment = new LikedFragment(myContext);
                 return likedFragment;
             case 1:
                 DislikedFragment dislikedFragment = new DislikedFragment();

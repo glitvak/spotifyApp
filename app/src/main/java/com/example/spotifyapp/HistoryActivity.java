@@ -44,7 +44,6 @@ public class HistoryActivity extends AppCompatActivity {
     TextView likedView;
     TextView dislikedView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Boolean playlistMade = false;
     private SharedPreferences sharedPreferences;
     String likedSongIDs;
     private RequestQueue queue;
@@ -53,7 +52,6 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         likedSongIDs = "";
         likedView = findViewById(R.id.likedView);
         dislikedView = findViewById(R.id.DislikedView);
