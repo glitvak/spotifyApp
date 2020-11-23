@@ -1,5 +1,6 @@
 package com.example.spotifyapp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.example.spotifyapp.Connectors.SongService;
+import com.example.spotifyapp.db.AppDatabase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,9 +35,14 @@ public class DislikedFragment extends Fragment {
     String likedSongIDs;
     private RequestQueue queue;
     private SongService songService;
+    private AppDatabase database;
+    private String id = "";
 
 
-    public DislikedFragment(){
+    public DislikedFragment(Context context){
+        songService = new SongService(context);
+        database = AppDatabase.getInstance(context);
+        id = database.userDao().getAll().get(0).userid;
     }
 
     private void loadData(View v, String id){
@@ -78,8 +85,8 @@ public class DislikedFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dislike, container, false);
         dislikedView = view.findViewById(R.id.dislikedSongs);
-        sharedPreferences = view.getContext().getSharedPreferences("SPOTIFY", 0);
-        String id = sharedPreferences.getString("userid", "No User");
+        //sharedPreferences = view.getContext().getSharedPreferences("SPOTIFY", 0);
+        //String id = sharedPreferences.getString("userid", "No User");
         loadData(view, id);
 
         return view;

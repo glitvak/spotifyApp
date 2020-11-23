@@ -26,7 +26,7 @@ public class MyAdapter extends FragmentPagerAdapter {
                 LikedFragment likedFragment = new LikedFragment(myContext);
                 return likedFragment;
             case 1:
-                DislikedFragment dislikedFragment = new DislikedFragment();
+                DislikedFragment dislikedFragment = new DislikedFragment(myContext);
                 return dislikedFragment;
             default:
                 return null;

@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.example.spotifyapp.Connectors.SongService;
+import com.example.spotifyapp.db.AppDatabase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,15 +35,21 @@ public class LikedFragment extends Fragment implements OnClickListener{
     String likedSongIDs = "";
     private RequestQueue queue;
     private SongService songService;
+    private AppDatabase database;
+    private String id = "";
 
     public LikedFragment(Context context){
         songService = new SongService(context);
+        database = AppDatabase.getInstance(context);
+        id = database.userDao().getAll().get(0).userid;
     }
 
     private void loadData(View v, String id){
         // docRef = db.collection("Notebook").document(id).collection("likedSongs");
 
-        db.collection("Notebook").document(sharedPreferences.getString("userid", "No User")).get()
+
+        //db.collection("Notebook").document(sharedPreferences.getString("userid", "No User")).get()
+        db.collection("Notebook").document(id).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -88,8 +95,8 @@ public class LikedFragment extends Fragment implements OnClickListener{
         likedView = view.findViewById(R.id.likedSongs);
         playlistButton = view.findViewById(R.id.playListBtn);
         Log.e("WAT", playlistButton.getText().toString());
-        sharedPreferences = view.getContext().getSharedPreferences("SPOTIFY", 0);
-        String id = sharedPreferences.getString("userid", "No User");
+        //sharedPreferences = view.getContext().getSharedPreferences("SPOTIFY", 0);
+        //String id = sharedPreferences.getString("userid", "No User");
         loadData(view, id);
         playlistButton.setOnClickListener(this);
 

@@ -8,6 +8,16 @@
     android:orientation="vertical"
     tools:context=".SplashActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Spotify\nRecommendations"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/loginButton"
         android:onClick="startAuthentication"

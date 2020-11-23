@@ -15,6 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.spotifyapp.Connectors.UserService;
 import com.example.spotifyapp.Model.User;
+import com.example.spotifyapp.db.AppDatabase;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
@@ -24,6 +25,7 @@ import io.perfmark.Tag;
 public class SplashActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private SharedPreferences msharedPreferences;
+    private AppDatabase database;
 
     private RequestQueue queue;
 
@@ -94,7 +96,13 @@ public class SplashActivity extends AppCompatActivity {
             public void onSuccess() {
                 User user = userService.getUser();
                 editor = SplashActivity.this.getSharedPreferences("SPOTIFY", 0).edit();
-                editor.putString("userid", user.id);
+                database = AppDatabase.getInstance(SplashActivity.this);
+                if(database.userDao().getOne(user.id) == null){
+                    com.example.spotifyapp.db.User newUser = new com.example.spotifyapp.db.User();
+                    newUser.userid = user.id;
+                    database.userDao().insertAll(newUser);
+                }
+                //editor.putString("userid", user.id);
                 Log.d("STARTING", "GOT USER INFORMATION");
                 // We use commit instead of apply because we need the information stored immediately
                 editor.commit();
