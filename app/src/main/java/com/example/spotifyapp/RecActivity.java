@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.spotifyapp.Connectors.SongService;
 import com.example.spotifyapp.Model.Artist;
 import com.example.spotifyapp.Model.Song;
+import com.example.spotifyapp.db.AppDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -61,6 +62,8 @@ public class RecActivity extends AppCompatActivity {
     private GradientDrawable backgroundGradient;
     private SharedPreferences sharedPreferences;
     public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
+    private AppDatabase database;
+    private String id = "";
 
     @Override
     protected void onResume() {
@@ -84,12 +87,17 @@ public class RecActivity extends AppCompatActivity {
         img = findViewById(R.id.albumArt);
         analysisView = findViewById(R.id.analysis);
         backgroundGradient = (GradientDrawable)img.getBackground();
-
+        database = AppDatabase.getInstance(getApplicationContext());
+        id = database.userDao().getAll().get(0).userid;
         sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        checkDB(sharedPreferences.getString("userid", "No User"));
-
+        //checkDB(sharedPreferences.getString("userid", "No User"));
+        checkDB(id);
         //userView.setText();
 
+        if(rec == null){
+            like.setEnabled(false);
+            dislike.setEnabled(false);
+        }
         recBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +112,8 @@ public class RecActivity extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                likeSong(v, sharedPreferences.getString("userid", "No User"));
+                //likeSong(v, sharedPreferences.getString("userid", "No User"));
+                likeSong(v, id);
                 like.setEnabled(false);
                 dislike.setEnabled(false);
             }
@@ -113,7 +122,8 @@ public class RecActivity extends AppCompatActivity {
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dislikeSong(v, sharedPreferences.getString("userid", "No User"));
+                //dislikeSong(v, sharedPreferences.getString("userid", "No User"));
+                dislikeSong(v, id);
                 like.setEnabled(false);
                 dislike.setEnabled(false);
             }
@@ -165,9 +175,12 @@ public class RecActivity extends AppCompatActivity {
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DocumentReference doc = db.collection("Notebook").document(sharedPreferences.getString("userid", "No User"));
+                //DocumentReference doc = db.collection("Notebook").document(sharedPreferences.getString("userid", "No User"));
+                DocumentReference doc = db.collection("Notebook").document(id);
                 doc.delete();
-                sharedPreferences.edit().clear().commit();
+                sharedPreferences.edit().clear().apply();
+                database.userDao().deleteByUserId(id);
+                //Intent newintent = new Intent(String.valueOf(SplashActivity.class));
                 Intent newintent = new Intent(RecActivity.this, SplashActivity.class);
                 startActivity(newintent);
             }
@@ -301,6 +314,7 @@ public class RecActivity extends AppCompatActivity {
     }
 
     private void checkDB(String id){
+        Log.d("CHECK", id);
         DocumentReference doc = db.collection("Notebook").document(id);
 
         doc.get()
@@ -361,5 +375,12 @@ public class RecActivity extends AppCompatActivity {
                 Picasso.get().load(url).into(img);
             }
         }, id);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        checkDB(id);
+        // Activity being restarted from stopped state
     }
 }
