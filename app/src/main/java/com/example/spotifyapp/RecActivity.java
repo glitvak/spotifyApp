@@ -1,6 +1,7 @@
 package com.example.spotifyapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.spotifyapp.Connectors.SongService;
 import com.example.spotifyapp.Model.Artist;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.type.DateTime;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -55,6 +59,7 @@ public class RecActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Timestamp date;
     private GradientDrawable backgroundGradient;
+    private SharedPreferences sharedPreferences;
     public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
     @Override
@@ -75,11 +80,12 @@ public class RecActivity extends AppCompatActivity {
         Button dislike = findViewById(R.id.DislikeBtn);
         Button history = findViewById(R.id.historyBtn);
         Button local = findViewById(R.id.localButton);
+        Button delete = findViewById(R.id.deleteButton);
         img = findViewById(R.id.albumArt);
         analysisView = findViewById(R.id.analysis);
         backgroundGradient = (GradientDrawable)img.getBackground();
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
+        sharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         checkDB(sharedPreferences.getString("userid", "No User"));
 
         //userView.setText();
@@ -140,6 +146,39 @@ public class RecActivity extends AppCompatActivity {
                 startActivity(newintent);
             }
         });
+
+//        delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DocumentReference doc = db.collection("Notebook").document(sharedPreferences.getString("userid", "No User"));
+//                doc.delete();
+//                Intent newintent = new Intent(RecActivity.this, SplashActivity.class);
+//                startActivity(newintent);
+//
+//            }
+//        });
+    }
+    public void delete(View v){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Delete history");
+        alert.setMessage("Are you sure you want to delete your liked and disliked songs history?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DocumentReference doc = db.collection("Notebook").document(sharedPreferences.getString("userid", "No User"));
+                doc.delete();
+                sharedPreferences.edit().clear().commit();
+                Intent newintent = new Intent(RecActivity.this, SplashActivity.class);
+                startActivity(newintent);
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.create().show();
     }
     private void getAnalysis(){
         Song current = recentlyPlayedTracks.get(0);

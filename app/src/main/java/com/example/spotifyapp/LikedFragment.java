@@ -101,6 +101,7 @@ public class LikedFragment extends Fragment implements OnClickListener{
         switch (v.getId()) {
             case R.id.playListBtn:
                 saveSongs(v, likedSongIDs);
+                Toast.makeText(getActivity(), "Added", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
