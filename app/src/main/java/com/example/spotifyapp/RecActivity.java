@@ -70,6 +70,8 @@ public class RecActivity extends AppCompatActivity {
         super.onResume();
         backgroundGradient = (GradientDrawable)img.getBackground();
         backgroundGradient.setStroke(0, Color.WHITE);
+        img.setImageResource(android.R.color.transparent);
+        analysisView.setText("");
     }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +82,7 @@ public class RecActivity extends AppCompatActivity {
 
         Button recBtn = findViewById(R.id.rec);
         Button like = findViewById(R.id.likeBtn);
-        Button dislike = findViewById(R.id.DislikeBtn);
+        Button dislike = findViewById(R.id.dislikeBtn);
         Button history = findViewById(R.id.historyBtn);
         Button local = findViewById(R.id.localButton);
         Button delete = findViewById(R.id.deleteButton);
@@ -180,9 +182,11 @@ public class RecActivity extends AppCompatActivity {
                 doc.delete();
                 sharedPreferences.edit().clear().apply();
                 database.userDao().deleteByUserId(id);
-                //Intent newintent = new Intent(String.valueOf(SplashActivity.class));
+//                Intent newintent = new Intent(String.valueOf(SplashActivity.class));
+                //recreate();
                 Intent newintent = new Intent(RecActivity.this, SplashActivity.class);
                 startActivity(newintent);
+                Toast.makeText(RecActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
             }
         });
         alert.setNegativeButton("No", new DialogInterface.OnClickListener() {

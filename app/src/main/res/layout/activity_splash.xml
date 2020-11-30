@@ -10,19 +10,19 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="131dp"
-        android:text="Spotify\nRecommendations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spotify Recommendations"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:background="@drawable/rounded_button"
         android:onClick="startAuthentication"
         android:text="@string/login" />

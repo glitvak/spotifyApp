@@ -41,7 +41,6 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
 
-        Toast.makeText(SplashActivity.this, "On create Called", Toast.LENGTH_SHORT).show();
         Button login = findViewById(R.id.loginButton);
 
         msharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
@@ -53,7 +52,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
-        Toast.makeText(SplashActivity.this, "Activity result Called", Toast.LENGTH_SHORT).show();
         // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
             AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
@@ -82,7 +80,6 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
     private void authenticateSpotify() {
-        Toast.makeText(SplashActivity.this, "Authenticate Called", Toast.LENGTH_SHORT).show();
         AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{SCOPES});
         AuthorizationRequest request = builder.build();
@@ -109,12 +106,10 @@ public class SplashActivity extends AppCompatActivity {
                 SplashActivity.this.startMainActivity();
             }
         });
-        Toast.makeText(SplashActivity.this, "Wait user info Called", Toast.LENGTH_SHORT).show();
     }
 
     private void startMainActivity() {
         //Intent newintent = new Intent(SplashActivity.this, DisplayData.class);
-        Toast.makeText(SplashActivity.this, "Start main activity Called", Toast.LENGTH_SHORT).show();
         Intent newintent = new Intent(SplashActivity.this, RecActivity.class);
         startActivity(newintent);
     }

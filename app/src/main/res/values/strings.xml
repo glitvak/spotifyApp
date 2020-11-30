@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">spotifyApp</string>
+    <string name="app_name">Spotify Recommendations</string>
     <string name="description">Description</string>
     <string name="save">Create</string>
     <string name="update">Update</string>
